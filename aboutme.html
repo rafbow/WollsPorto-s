@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #333;
+            --highlight-color: #4a4a4a;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .about-section {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .profile-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+
+        .profile-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .skill-pill {
+            background: var(--highlight-color);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            margin: 0.25rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .skill-pill:hover {
+            background: var(--text-color);
+            color: var(--dark-bg);
+        }
+
+        .experience-card {
+            background: var(--accent-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateX(10px);
+        }
+
+        .year-badge {
+            background: var(--highlight-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .stats-container {
+            background: var(--accent-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--text-color);
+        }
+
+        .container-fluid {
+            flex: 1; 
+        }
+
+        footer {
+            padding: 20px 0;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-right: 2rem;
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        .email-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-color);
+            padding: 0.5rem 0;
+            width: 100%;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-bottom-color: var(--text-color);
+        }
+
+        .btn-submit {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+        }
+
+
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #4a4a4a, #ffffff);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg py-4">
+        <div class="container">
+            <a class="navbar-brand text-white" href="index.html"><strong>.rafbow</strong></a>
+            <button class="btn text-white"></button>
+            <div class="d-flex">
+                <a href="https://api.whatsapp.com/send/?phone=62895423492262&text&type=phone_number&app_absent=0" target="_blank" class="btn btn-outline-light rounded-pill me-2">Let's Talk</a>
+                <a class="btn text-white" href="index.html"><i class="fas fa-times"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <h1 class="display-4 mb-5">About Me</h1>
+
+        <div class="row">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="profile-image">
+                    <img src="https://acasa.co.za/wp-content/uploads/2020/11/avatar-flat-icon-on-black-background-black-style-vector-25959438.jpg" alt="Profile Image">
+                </div>
+                <h2>M Rafi Wibowo</h2>
+                <h4 class="text-muted">Creative Director & UI/UX Designer</h4>
+                <p class="lead mb-4">
+                    I'm a passionate designer with over 8 years of experience in creating digital experiences that users love. My approach combines aesthetic excellence with functional design thinking.
+                </p>
+                <div class="mb-5">
+                    <h5 class="mb-3">Skills & Expertise</h5>
+                    <div class="skill-pill">UI Design</div>
+                    <div class="skill-pill">UX Research</div>
+                    <div class="skill-pill">Prototyping</div>
+                    <div class="skill-pill">Web Design</div>
+                    <div class="skill-pill">Mobile Design</div>
+                    <div class="skill-pill">Brand Identity</div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="experience-section">
+                    <h3 class="mb-4">Experience</h3>
+                    <div class="experience-card">
+                        <span class="year-badge mb-2">2020 - Present</span>
+                        <h4>Creative Director</h4>
+                        <p class="text-muted">Design Studio Inc.</p>
+                        <p>Leading a team of designers in creating innovative digital solutions for global clients.</p>
+                    </div>
+                    <div class="experience-card">
+                        <span class="year-badge mb-2">2018 - 2020</span>
+                        <h4>Senior UI/UX Designer</h4>
+                        <p class="text-muted">Tech Innovations Ltd.</p>
+                        <p>Designed and implemented user interfaces for various web and mobile applications.</p>
+                    </div>
+                    <div class="experience-card">
+                        <span class="year-badge mb-2">2015 - 2018</span>
+                        <h4>UI Designer</h4>
+                        <p class="text-muted">Creative Agency Co.</p>
+                        <p>Created visually appealing interfaces for clients across different industries.</p>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="row">
+                        <div class="col-6 stat-item">
+                            <div class="stat-number" data-count="150">0</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="col-6 stat-item">
+                            <div class="stat-number" data-count="8">0</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="col-6 stat-item">
+                            <div class="stat-number" data-count="65">0</div>
+                            <div class="stat-label">Happy Clients</div>
+                        </div>
+                        <div class="col-6 stat-item">
+                            <div class="stat-number" data-count="15">0</div>
+                            <div class="stat-label">Awards Won</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="container py-5">
+        <div class="row mt-5">
+            <div class="col-lg-6">
+                <h5>Follow me.</h5>
+                <div class="social-links mt-3">
+                    <a href="#" target="_blank">INSTAGRAM</a>
+                    <a href="#" target="_blank">BEHANCE</a>
+                    <a href="#" target="_blank">TWITTER</a>
+                    <a href="#" target="_blank">DRIBBBLE</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h5>Stay connected w/ me.</h5>
+                <div class="d-flex mt-3">
+                    <input type="email" class="email-input" placeholder="Enter your email">
+                    <button class="btn-submit">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100
+        });
+
+        // Custom cursor
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.getElementById('cursor');
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+        });
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const scrollPx = document.documentElement.scrollTop;
+            const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = `${scrollPx / winHeightPx * 100}%`;
+            scrollProgress.style.width = scrolled;
+        });
+
+        // Stats counter animation
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-count'));
+                let count = 0;
+                const duration = 2000; // 2 seconds
+                const increment = target / (duration / 16); // 60fps
+
+                const timer = setInterval(() => {
+                    count += increment;
+                    if (count >= target) {
+                        stat.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(count);
+                    }
+                }, 16);
+            });
+        }
+
+        // Trigger stats animation when in viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.querySelector('.stats-container').forEach(container => {
+            observer.observe(container);
+        });
+
+        // Email validation
+        const emailInput = document.querySelector('.email-input');
+        const submitBtn = document.querySelector('.btn-submit');
+
+        submitBtn.addEventListener('click', () => {
+            const email = emailInput.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (emailRegex.test(email)) {
+                alert('Thank you for subscribing!');
+                emailInput.value = '';
+            } else {
+                alert('Please enter a valid email address');
+            }
+        });
+
+        // Page transition
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                
+                document.body.style.opacity = 0;
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

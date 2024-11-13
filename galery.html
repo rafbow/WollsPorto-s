@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #333;
+            --highlight-color: #4a4a4a;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 1.125rem;
+        }
+
+        /* Advanced Gallery Grid Styles */
+        .gallery-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 250px;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Different sized items */
+        .gallery-item.large {
+            grid-row: span 2;
+            grid-column: span 2;
+        }
+
+        .gallery-item.vertical {
+            grid-row: span 2;
+        }
+
+        .gallery-item.horizontal {
+            grid-column: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.8)
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item-content {
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-content {
+            transform: translateY(0);
+        }
+
+        .gallery-item-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .gallery-item-content p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .gallery-item-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+
+        /* Filter Controls */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: black;
+        }
+
+        /* Loading Animation */
+        .loading-animation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .loading-animation::after {
+            content: "";
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ffffff;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-item.large,
+            .gallery-item.horizontal {
+                grid-column: auto;
+            }
+            .gallery-item.large,
+            .gallery-item.vertical {
+                grid-row: span 1;
+            }
+        }
+
+        .container-fluid {
+            flex: 1; 
+        }
+
+        footer {
+            padding: 20px 0;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-right: 2rem;
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        .email-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-color);
+            padding: 0.5rem 0;
+            width: 100%;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-bottom-color: var(--text-color);
+        }
+
+        .btn-submit {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg py-4">
+        <div class="container">
+            <a class="navbar-brand text-white" href="index.html"><strong>.rafbow</strong></a>
+            <button class="btn text-white"></button>
+            <div class="d-flex">
+                <a href="https://api.whatsapp.com/send/?phone=62895423492262&text&type=phone_number&app_absent=0" target="_blank" class="btn btn-outline-light rounded-pill me-2">Let's Talk</a>
+                <a class="btn text-white" href="index.html"><i class="fas fa-times"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <h1 class="display-4 mb-5">About Me</h1>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Works</button>
+            <button class="filter-btn" data-filter="web">Web Design</button>
+            <button class="filter-btn" data-filter="branding">Branding</button>
+            <button class="filter-btn" data-filter="photography">Photography</button>
+        </div>
+
+    <div class="gallery-grid">
+        <!-- Gallery items will be dynamically inserted here -->
+    </div>
+
+    <footer class="container py-5">
+        <div class="row mt-5">
+            <div class="col-lg-6">
+                <h5>Follow me.</h5>
+                <div class="social-links mt-3">
+                    <a href="#" target="_blank">INSTAGRAM</a>
+                    <a href="#" target="_blank">BEHANCE</a>
+                    <a href="#" target="_blank">TWITTER</a>
+                    <a href="#" target="_blank">DRIBBBLE</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h5>Stay connected w/ me.</h5>
+                <div class="d-flex mt-3">
+                    <input type="email" class="email-input" placeholder="Enter your email">
+                    <button class="btn-submit">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+    // Gallery Data
+    const galleryItems = [
+    {
+      id: 1,
+      title: "Modern Web Platform",
+      category: "web",
+      tags: ["UI/UX", "Development"],
+      image: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600",
+      size: "large"
+    },
+    {
+      id: 2,
+      title: "Brand Identity",
+      category: "branding",
+      tags: ["Logo", "Identity"],
+      image: "https://plus.unsplash.com/premium_photo-1679457432686-5c237bada8af?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.com/photo-1514002353874-71aed1b3d23c?w=400&h=600",
+      size: "vertical"
+    },
+    {
+      id: 3,
+      title: "Nature Collection",
+      category: "photography",
+      tags: ["Nature", "Art"],
+      image: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=300",
+      size: "horizontal"
+    },
+    {
+      id: 4,
+      title: "Mobile App Design",
+      category: "web",
+      tags: ["Mobile", "UI"],
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300",
+      size: "normal"
+    },
+    {
+      id: 5,
+      title: "Corporate Identity",
+      category: "branding",
+      tags: ["Branding", "Design"],
+      image: "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?w=400&h=300",
+      size: "normal"
+    },
+    {
+      id: 6,
+      title: "Urban Photography",
+      category: "photography",
+      tags: ["Urban", "Art"],
+      image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600",
+      size: "large"
+    }
+  ];
+
+    // Render Gallery Items
+    function renderGallery(items) {
+        const gallery = document.querySelector('.gallery-grid');
+        gallery.innerHTML = items.map(item => `
+            <div class="gallery-item ${item.size}" data-category="${item.category}">
+                <img src="${item.image}" alt="${item.title}">
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-content">
+                        <h3>${item.title}</h3>
+                        <p>${item.category}</p>
+                        <div class="gallery-item-tags">
+                            ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Filter Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Filter items
+            const filterValue = button.getAttribute('data-filter');
+            const filteredItems = filterValue === 'all' 
+                ? galleryItems 
+                : galleryItems.filter(item => item.category === filterValue);
+
+            // Add loading animation
+            const gallery = document.querySelector('.gallery-grid');
+            gallery.innerHTML = '<div class="loading-animation"></div>';
+
+            // Render after small delay to show loading animation
+            setTimeout(() => {
+                renderGallery(filteredItems);
+            }, 500);
+        });
+    });
+
+    // Initial render
+    renderGallery(galleryItems);
+
+    // Optional: Add animation when items come into view
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Observe gallery items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(item);
+        });
+    }
+
+    // Email validation
+    const emailInput = document.querySelector('.email-input');
+        const submitBtn = document.querySelector('.btn-submit');
+
+        submitBtn.addEventListener('click', () => {
+            const email = emailInput.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (emailRegex.test(email)) {
+                alert('Thank you for subscribing!');
+                emailInput.value = '';
+            } else {
+                alert('Please enter a valid email address');
+            }
+        });
+    </script>
+
+</body>
+</html>
